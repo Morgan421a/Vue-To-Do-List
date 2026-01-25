@@ -25,6 +25,7 @@ function deleteEntry(entry) {
     <h1>To Do List</h1>
     <div class="content-top">
     <button class="new-entry" @click="addEntry">New Entry</button>
+    <span id="hide-completed"><input type="checkbox">Hide completed tasks</span>
     </div>
     <div class="content">
       <ul>
@@ -59,17 +60,26 @@ h1 {
   align-items: center;
   justify-content: center;
   outline: solid 1px red;
+  padding-left: 32%;
 }
 
 .content {
   grid-area: content;
   outline: solid 1px red;
+  background-color: rgb(150, 102, 212);
+  border-radius: 15%;
+  height: 87vh;
+  margin-top: 2%;
+  padding-left: 8%;
+  flex: 1 0 auto;
+  flex-wrap: wrap;
 }
 
 .new-entry {
   grid-area: content-top;
   width: 40%;
   height: 110%;
+  align-self: center;
 }
 
 ul {
@@ -82,6 +92,15 @@ li {
   align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
+}
+
+#hide-completed {
+  display: inline-flex;
+  outline: 1px solid blueviolet;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  margin-left: 10%;
 }
 
 
