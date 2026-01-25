@@ -1,15 +1,35 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+
+let id = 0
+
+const entries = ref([
+  { id: id++, text: 'You Can Delete Me' } // Stores entries in an array, gives each entry and id key
+])
+
+function addEntry() {
+  const newEntry = prompt("Enter a new task:");
+  if (newEntry != null) { // only executes if newEntry not empty
+    entries.value.push({ id: id++, text: newEntry })
+  }
+}
+
+
+</script>
 
 <template>
   <div class="layout">
     <h1>To Do List</h1>
     <div class="content-top">
-    <button class="new-entry">New Entry</button>
+    <button class="new-entry" @click="addEntry">New Entry</button>
     </div>
     <div class="content">
       <ul>
-        <li><input type="checkbox" class="checkbox"><span class="list-item">List-element text.</span><input type="button" value="-" id="delete"></input><br/><br/></li>
-        <!-- Use computed values for button value to have an image rather than text -->
+        <li v-for="entry in entries" :key="entry.id">
+          <input type="checkbox" class="checkbox">
+          <span>{{ entry.text }}</span>
+          <input type="button" value="-" id="delete"></input><br/><br/>
+        </li>
       </ul>
     </div>
   </div>
@@ -49,6 +69,10 @@ h1 {
   height: 110%;
 }
 
+ul {
+  padding-left: 0px;
+}
+
 li {
   list-style: none;
   display: flex;
@@ -56,6 +80,7 @@ li {
   justify-content: flex-start;
   flex-wrap: wrap;
 }
+
 
 
 
