@@ -4,16 +4,19 @@ import { ref } from 'vue';
 let id = 0
 
 const entries = ref([
-  { id: id++, text: 'You Can Delete Me' } // Stores entries in an array, gives each entry and id key
+  { id: id++, text: "You Can Delete Me", complete: true } // Stores entries in an array, gives each entry and id key
 ])
 
 function addEntry() {
   const newEntry = prompt("Enter a new task:");
   if (newEntry != null) { // only executes if newEntry not empty
-    entries.value.push({ id: id++, text: newEntry })
+    entries.value.push({ id: id++, text: newEntry, complete: false })
   }
 }
 
+function deleteEntry(entry) {
+  entries.value = entries.value.filter((t) => t !== entry)
+}
 
 </script>
 
@@ -28,7 +31,7 @@ function addEntry() {
         <li v-for="entry in entries" :key="entry.id">
           <input type="checkbox" class="checkbox">
           <span>{{ entry.text }}</span>
-          <input type="button" value="-" id="delete"></input><br/><br/>
+          <button id="delete" @click="deleteEntry(entry)">X</button><br/><br/>
         </li>
       </ul>
     </div>
