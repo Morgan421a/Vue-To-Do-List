@@ -1,10 +1,10 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 let id = 0
-
+const hideCompleted = ref(false)
 const entries = ref([
-  { id: id++, text: "You Can Delete Me", complete: true } // Stores entries in an array, gives each entry and id key
+  { id: id++, text: "You Can Delete Me", complete: false } // Stores entries in an array, gives each entry and id key
 ])
 
 function addEntry() {
@@ -18,6 +18,12 @@ function deleteEntry(entry) {
   entries.value = entries.value.filter((t) => t !== entry)
 }
 
+const completedTasks = computed(() => {
+  return hideCompleted.value
+  ? entries.value.filter((t) => !t.complete)
+  : entries.value
+})
+
 </script>
 
 <template>
@@ -25,13 +31,13 @@ function deleteEntry(entry) {
     <h1>To Do List</h1>
     <div class="content-top">
     <button class="new-entry" @click="addEntry">New Entry</button>
-    <span id="hide-completed"><input type="checkbox">Hide completed tasks</span>
+    <span id="hide-completed"><input type="checkbox" @click="hideCompleted = !hideCompleted">Hide completed tasks</span>
     </div>
     <div class="content">
       <ul>
-        <li v-for="entry in entries" :key="entry.id">
-          <input type="checkbox" class="checkbox">
-          <span>{{ entry.text }}</span>
+        <li v-for="entry in completedTasks" :key="entry.id">
+          <input type="checkbox" class="checkbox" v-model="entry.complete">
+          <span :class="{ complete: entry.complete }">{{ entry.text }}</span>
           <button id="delete" @click="deleteEntry(entry)">X</button><br/><br/>
         </li>
       </ul>
@@ -47,6 +53,7 @@ function deleteEntry(entry) {
       "left-blank content-top right-blank"
       "left-blank content  right-blank"
       "left-footer content  right-footer";
+  background-image: linear-gradient(to top, purple, white);
 }
 
 h1 {
@@ -59,7 +66,6 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  outline: solid 1px red;
   padding-left: 32%;
 }
 
@@ -80,6 +86,10 @@ h1 {
   width: 40%;
   height: 110%;
   align-self: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 3 auto
 }
 
 ul {
@@ -96,14 +106,15 @@ li {
 
 #hide-completed {
   display: inline-flex;
-  outline: 1px solid blueviolet;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   margin-left: 10%;
+  flex: 1 1 auto;
 }
 
-
-
+.complete {
+  text-decoration: line-through;
+}
 
 </style>
