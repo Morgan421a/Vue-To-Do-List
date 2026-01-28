@@ -45,14 +45,27 @@ const completedTasks = computed(() => {
   </div>
 </template>
 
+<style>
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+</style>
+
 <style scoped>
+
 .layout {
+  height: 100vh;
   display: grid;
   grid-template-areas:
       "topbar  topbar  topbar"
       "left-blank content-top right-blank"
-      "left-blank content  right-blank"
-      "left-footer content  right-footer";
+      "left-blank content  right-blank";
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto 1fr;
+  gap: 0rem;
   background-image: linear-gradient(to top, purple, white);
 }
 
@@ -71,14 +84,15 @@ h1 {
 
 .content {
   grid-area: content;
-  outline: solid 1px red;
   background-color: rgb(150, 102, 212);
   border-radius: 15%;
-  height: 87vh;
+  height: 86vh;
   margin-top: 2%;
   padding-left: 8%;
   flex: 1 0 auto;
   flex-wrap: wrap;
+  box-shadow: 4px 3px;
+
 }
 
 .new-entry {
@@ -116,5 +130,7 @@ li {
 .complete {
   text-decoration: line-through;
 }
+
+
 
 </style>
