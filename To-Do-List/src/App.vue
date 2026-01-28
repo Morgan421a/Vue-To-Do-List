@@ -36,9 +36,9 @@ const completedTasks = computed(() => {
     <div class="content">
       <ul>
         <li v-for="entry in completedTasks" :key="entry.id">
-          <input type="checkbox" class="checkbox" v-model="entry.complete">
-          <span :class="{ complete: entry.complete }">{{ entry.text }}</span>
-          <button id="delete" @click="deleteEntry(entry)">X</button><br/><br/>
+          <span :class="{ complete: entry.complete }"><input type="checkbox" class="checkbox" v-model="entry.complete">
+          {{ entry.text }}
+          <button id="delete" @click="deleteEntry(entry)">X</button></span>
         </li>
       </ul>
     </div>
@@ -63,8 +63,8 @@ html, body {
       "topbar  topbar  topbar"
       "left-blank content-top right-blank"
       "left-blank content  right-blank";
-  grid-template-columns: auto auto auto;
   grid-template-rows: auto auto 1fr;
+  grid-template-columns: 1fr minmax(0, 600px) 1fr;
   gap: 0rem;
   background-image: linear-gradient(to top, purple, white);
 }
@@ -78,8 +78,7 @@ h1 {
   grid-area: content-top;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-left: 32%;
+  padding-left: 30%;
 }
 
 .content {
@@ -89,25 +88,26 @@ h1 {
   height: 86vh;
   margin-top: 2%;
   padding-left: 8%;
-  flex: 1 0 auto;
-  flex-wrap: wrap;
   box-shadow: 4px 3px;
-
 }
 
 .new-entry {
   grid-area: content-top;
-  width: 40%;
   height: 110%;
-  align-self: center;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  flex: 1 3 auto
+  flex: 0 0 auto;
+  border-radius: 16px;
 }
 
 ul {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   padding-left: 0px;
+  min-width: 0;
+  max-width: 90%;
 }
 
 li {
@@ -118,10 +118,14 @@ li {
   flex-wrap: wrap;
 }
 
+li span, #delete {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
+}
+
 #hide-completed {
   display: inline-flex;
-  justify-content: center;
-  align-items: center;
   box-sizing: border-box;
   margin-left: 10%;
   flex: 1 1 auto;
@@ -131,6 +135,23 @@ li {
   text-decoration: line-through;
 }
 
+#delete {
+  display: flex;
+  border-radius: 50%;
+  flex: 1 0 auto;
+}
+
+button,
+input {
+  cursor: pointer;
+}
+
+li span {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 0;
+}
 
 
 </style>
