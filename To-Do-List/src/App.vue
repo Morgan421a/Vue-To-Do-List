@@ -36,9 +36,13 @@ const completedTasks = computed(() => {
     <div class="content">
       <ul>
         <li v-for="entry in completedTasks" :key="entry.id">
-          <span :class="{ complete: entry.complete }"><input type="checkbox" class="checkbox" v-model="entry.complete">
-          {{ entry.text }}
-          <button id="delete" @click="deleteEntry(entry)">X</button></span>
+          <span class="row">
+
+            <input type="checkbox" class="checkbox" v-model="entry.complete">
+            <span :class="{ complete: entry.complete }">{{ entry.text }}</span>
+            <button id="delete" @click="deleteEntry(entry)">X</button>
+
+          </span>
         </li>
       </ul>
     </div>
@@ -146,9 +150,9 @@ input {
   cursor: pointer;
 }
 
-li span {
+.row {
   display: flex;
-  align-items: center;
+  align-items: center;  /* Wraps li content ensuring all buttons and inputs don't become disconnected  */
   gap: 0.2rem;
   min-width: 0;
 }
