@@ -4,7 +4,7 @@ import { ref, computed } from 'vue';
 let id = 0
 const hideCompleted = ref(false)
 const entries = ref([
-  { id: id++, text: "You Can Delete Me", complete: false } // Stores entries in an array, gives each entry and id key
+  { id: id++, text: "Welcome, you Can Delete Me", complete: false } // Stores entries in an array, gives each entry and id key
 ])
 
 function addEntry() {
@@ -15,50 +15,91 @@ function addEntry() {
 }
 
 function deleteEntry(entry) {
-  entries.value = entries.value.filter((t) => t !== entry)
+  entries.value = entries.value.filter((t) => t !== entry) // Replaces old array with updated version after removing deleted entry
 }
 
 const completedTasks = computed(() => {
   return hideCompleted.value
   ? entries.value.filter((t) => !t.complete)
   : entries.value
-})
+}
+)
+
+const getDate = ref(new Date())
+
+const formattedDate = computed(() =>
+  getDate.value.toLocaleDateString( { // Allows reactive Date
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  })
+)
+
+
 
 </script>
 
 <template>
   <div class="layout">
     <h1>To Do List</h1>
+
     <div class="content-top">
-    <button class="new-entry" @click="addEntry">New Entry</button>
-    <span id="hide-completed"><input type="checkbox" @click="hideCompleted = !hideCompleted">Hide completed tasks</span>
+      <button class="new-entry" @click="addEntry">New Entry</button>
+      <label class="hide-completed">
+        <input type="checkbox" @click="hideCompleted = !hideCompleted">
+        <span>Hide completed tasks</span>
+      </label>
     </div>
+
     <div class="content">
-      <ul>
+      <h3>{{ formattedDate }}</h3>
+
+      <ul class="task-list">
         <li v-for="entry in completedTasks" :key="entry.id">
-          <input type="checkbox" class="checkbox" v-model="entry.complete">
-          <span :class="{ complete: entry.complete }">{{ entry.text }}</span>
-          <button id="delete" @click="deleteEntry(entry)">X</button><br/><br/>
+          <span class="row">
+            <label class="task">
+              <input type="checkbox" class="checkbox" v-model="entry.complete">
+              <span :class="{ complete: entry.complete }">{{ entry.text }}</span>
+            </label>
+
+            <button id="delete" @click="deleteEntry(entry)">X</button>
+          </span>
         </li>
       </ul>
     </div>
   </div>
 </template>
 
+<style>
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+</style>
+
 <style scoped>
+
 .layout {
+  height: 100vh;
   display: grid;
   grid-template-areas:
       "topbar  topbar  topbar"
       "left-blank content-top right-blank"
-      "left-blank content  right-blank"
-      "left-footer content  right-footer";
-  background-image: linear-gradient(to top, purple, white);
+      "left-blank content right-blank"
+      "footer footer footer";
+  grid-template-rows: auto auto 1fr;
+  grid-template-columns: 1fr minmax(0, 600px) 1fr;
+  gap: 0rem;
+  background-color: aliceblue;
 }
 
 h1 {
   text-align:center;
   grid-area: topbar;
+  color: #191950;
 }
 
 .content-top {
@@ -66,55 +107,148 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-left: 32%;
+  gap: 16px;
+  margin-top: 12px;
+  margin-bottom: 28px;
 }
 
 .content {
   grid-area: content;
-  outline: solid 1px red;
-  background-color: rgb(150, 102, 212);
-  border-radius: 15%;
-  height: 87vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #4448c2;
+  color: aliceblue;
+  border-radius: 10%;
   margin-top: 2%;
   padding-left: 8%;
-  flex: 1 0 auto;
-  flex-wrap: wrap;
+  padding-top: 2%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(180deg, #4f56d8, #3f46c5);
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  max-height: 80vh;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+h3 {
+  align-self: center;
+  margin-top: 0;
+  margin-right: 8%;
 }
 
 .new-entry {
   grid-area: content-top;
-  width: 40%;
-  height: 110%;
-  align-self: center;
+  height: 130%;
+  box-sizing: border-box;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  flex: 1 3 auto
+  flex: 0 0 auto;
+  border-radius: 16px;
+  background-color: #4448c2;
+  border: none;
 }
 
 ul {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   padding-left: 0px;
+  min-width: 0;
+  max-width: 90%;
 }
 
 li {
   list-style: none;
   display: flex;
   align-items: flex-start;
-  justify-content: flex-start;
+  justify-content: space-between;
   flex-wrap: wrap;
+  padding: 8px 12px;
+  border-radius: 8px;
 }
 
-#hide-completed {
+li:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+li span, #delete {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
+}
+
+.hide-complete {
   display: inline-flex;
-  justify-content: center;
-  align-items: center;
   box-sizing: border-box;
   margin-left: 10%;
   flex: 1 1 auto;
+  color: #191950;
+  font-weight: 600;
 }
 
 .complete {
   text-decoration: line-through;
+  color: black;
+  opacity: 0.5;
+}
+
+#delete {
+  display: flex;
+  border-radius: 50%;
+  vertical-align: middle;
+  flex: 1 0 auto;
+  background-color: rgb(243, 53, 53);
+  color: aliceblue;
+  border: none;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  opacity: 0.5;
+}
+
+#delete:hover {
+  opacity: 1;
+}
+
+button,
+input {
+  cursor: pointer;
+}
+
+.row {
+  display: flex;
+  align-items: center;  /* Wraps li content ensuring all buttons and inputs don't become disconnected  */
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+input {
+  appearance: none;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+}
+
+label input {
+  border: solid 1px #191950;
+  margin-top: 1px;
+  vertical-align: middle;
+}
+
+input:checked{
+  background-color: black;
+}
+
+input.checkbox {
+  margin-right: 5px;
+  vertical-align: middle;
+  border: solid 1px aliceblue;
 }
 
 </style>
