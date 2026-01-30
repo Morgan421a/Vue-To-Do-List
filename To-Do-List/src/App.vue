@@ -93,6 +93,15 @@ h1 {
   margin-top: 2%;
   padding-left: 8%;
   box-shadow: 4px 3px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
 }
 
 .new-entry {
