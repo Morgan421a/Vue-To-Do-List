@@ -1,4 +1,5 @@
 <script setup>
+
 import { ref, computed } from 'vue';
 
 let id = 0
@@ -35,11 +36,10 @@ const formattedDate = computed(() =>
   })
 )
 
-
-
 </script>
 
 <template>
+
   <div class="layout">
     <h1>To Do List</h1>
 
@@ -67,6 +67,7 @@ const formattedDate = computed(() =>
       </ul>
     </div>
   </div>
+
 </template>
 
 <style>
@@ -78,7 +79,8 @@ html, body {
 }
 
 button,
-input {
+input,
+span {
   cursor: pointer;
 }
 
@@ -137,7 +139,6 @@ h1 {
   padding: 8px 12px;
 }
 
-
 .hide-tasks:hover {
   background: rgba(110, 70, 70, 0.13);
 }
@@ -179,6 +180,13 @@ ul {
   max-width: 90%;
 }
 
+.row {
+  display: flex;
+  align-items: center;  /* Wraps li content ensuring all buttons and inputs don't become disconnected  */
+  gap: 0.2rem;
+  min-width: 0;
+}
+
 .complete {
   text-decoration: line-through;
   color: black;
@@ -205,10 +213,6 @@ li span, #delete {
   min-width: 0;
 }
 
-
-
-
-
 #delete {
   display: flex;
   border-radius: 50%;
@@ -225,15 +229,6 @@ li span, #delete {
   opacity: 1;
 }
 
-
-
-.row {
-  display: flex;
-  align-items: center;  /* Wraps li content ensuring all buttons and inputs don't become disconnected  */
-  gap: 0.2rem;
-  min-width: 0;
-}
-
 input {
   appearance: none;
   height: 15px;
@@ -247,14 +242,14 @@ label input {
   vertical-align: middle;
 }
 
-input:checked{
-  background-color: black;
-}
-
 input.checkbox {
   margin-right: 5px;
   vertical-align: middle;
   border: solid 1px aliceblue;
+}
+
+input:checked{
+  background-color: black;
 }
 
 </style>
