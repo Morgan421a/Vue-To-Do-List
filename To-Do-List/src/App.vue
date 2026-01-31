@@ -46,8 +46,7 @@ const formattedDate = computed(() =>
     <div class="content-top">
       <button class="new-entry" @click="addEntry">New Entry</button>
       <label class="hide-completed">
-        <input type="checkbox" @click="hideCompleted = !hideCompleted">
-        <span>Hide completed tasks</span>
+       <span class="hide-tasks"><input type="checkbox" @click="hideCompleted = !hideCompleted">Hide completed tasks</span>
       </label>
     </div>
 
@@ -76,6 +75,11 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
+}
+
+button,
+input {
+  cursor: pointer;
 }
 
 </style>
@@ -112,6 +116,32 @@ h1 {
   margin-bottom: 28px;
 }
 
+.new-entry {
+  grid-area: content-top;
+  height: 130%;
+  box-sizing: border-box;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+  border-radius: 16px;
+  background-color: #4448c2;
+  border: none;
+}
+
+.hide-tasks{
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+
+.hide-tasks:hover {
+  background: rgba(110, 70, 70, 0.13);
+}
+
 .content {
   grid-area: content;
   display: flex;
@@ -140,22 +170,6 @@ h3 {
   margin-right: 8%;
 }
 
-.new-entry {
-  grid-area: content-top;
-  height: 130%;
-  box-sizing: border-box;
-  font-size: 16px;
-  text-decoration: none;
-  color: white;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  flex: 0 0 auto;
-  border-radius: 16px;
-  background-color: #4448c2;
-  border: none;
-}
-
 ul {
   display: flex;
   flex-direction: column;
@@ -163,6 +177,12 @@ ul {
   padding-left: 0px;
   min-width: 0;
   max-width: 90%;
+}
+
+.complete {
+  text-decoration: line-through;
+  color: black;
+  opacity: 0.5;
 }
 
 li {
@@ -185,20 +205,9 @@ li span, #delete {
   min-width: 0;
 }
 
-.hide-complete {
-  display: inline-flex;
-  box-sizing: border-box;
-  margin-left: 10%;
-  flex: 1 1 auto;
-  color: #191950;
-  font-weight: 600;
-}
 
-.complete {
-  text-decoration: line-through;
-  color: black;
-  opacity: 0.5;
-}
+
+
 
 #delete {
   display: flex;
@@ -216,10 +225,7 @@ li span, #delete {
   opacity: 1;
 }
 
-button,
-input {
-  cursor: pointer;
-}
+
 
 .row {
   display: flex;
